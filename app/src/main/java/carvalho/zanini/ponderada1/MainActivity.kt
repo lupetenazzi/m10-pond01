@@ -10,8 +10,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import kotlin.random.Random
-
 import androidx.compose.ui.tooling.preview.Preview
 import carvalho.zanini.ponderada1.ui.theme.Ponderada1Theme
 
@@ -23,13 +21,13 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+
 @Preview(showBackground = true)
 @Composable
 fun LancadorDeDadosApp() {
     var dadoSelecionado by remember { mutableStateOf("D6") }
-    var resultado by remember { mutableStateOf("Clique no botão para lançar o dado") }
-
-    val dados = listOf("D6",)
+    var resultado by remember { mutableStateOf<Int?>(null) }
+    val dados = listOf("D6", "D10", "D20", "D100")
 
     Column(
         modifier = Modifier
@@ -61,14 +59,21 @@ fun LancadorDeDadosApp() {
 
         Spacer(modifier = Modifier.height(16.dp))
 
+        if (dadoSelecionado == "D6") {
+            val num = resultado ?: 0
+            if (num in 1..6) FaceD6(num)
+        }
+
         Button(
             onClick = {
                 val valorSorteado = when (dadoSelecionado) {
-                    "D6" -> Random.nextInt(6)
-                    else -> 0
+                    "D6"   -> (1..6).random()
+                    "D10"  -> (1..10).random()
+                    "D20"  -> (1..20).random()
+                    "D100" -> (1..100).random()
+                    else   -> 0
                 }
-
-                resultado = "Resultado do $dadoSelecionado: $valorSorteado"
+                resultado = valorSorteado
             },
             modifier = Modifier.fillMaxWidth()
         ) {
@@ -78,8 +83,23 @@ fun LancadorDeDadosApp() {
         Spacer(modifier = Modifier.height(24.dp))
 
         Text(
-            text = resultado,
+            text = if (resultado != null) "Resultado do $dadoSelecionado: $resultado"
+            else "Clique no botão para lançar o dado",
             fontSize = 20.sp
         )
     }
+}
+
+@Composable
+fun FaceD6(valor: Int) {
+    val emoji = when (valor) {
+        1 -> "⚀"
+        2 -> "⚁"
+        3 -> "⚂"
+        4 -> "⚃"
+        5 -> "⚄"
+        6 -> "⚅"
+        else -> "🎲"
+    }
+    Text(text = emoji, fontSize = 80.sp)
 }
