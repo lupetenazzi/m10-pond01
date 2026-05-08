@@ -1,4 +1,4 @@
-# ponderada-base-m10-01
+# Lançador de Dados - Atividade Ponderada em Sala
 Atividade Ponderada 1
 
 O projeto foi aberto no Android Studio a partir do repositório base fornecido. Para rodar, conectamos um dispositivo ou iniciamos um emulador e utilizamos a opção Run no Android Studio. Inicialmente tentamos executar nos computadores do Inteli, mas o carregamento era muito lento. Migramos para o Mac Mini, onde encontramos um problema de incompatibilidade de versão no `build.gradle` que nos impediu de sincronizar o projeto. Após ajustar a versão para a compatível com o ambiente, a sincronização funcionou e conseguimos buildar normalmente.
